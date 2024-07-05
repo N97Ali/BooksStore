@@ -34,9 +34,13 @@ namespace BooksStore.Areas.Customer.Controllers
                 includeProperties: "Product"),
                 OrderHeader = new()
             };
+            //Product retrive 
+            IEnumerable<ProductImage> productImgage = _iunitOfWork.ProductImage.GetAll();
+
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
+                cart.Product.ProductImages= productImgage.Where(u=> u.ProductId == cart.Product.Id).ToList();   
                 cart.Price = GetPriceBasedOnQuantity(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }

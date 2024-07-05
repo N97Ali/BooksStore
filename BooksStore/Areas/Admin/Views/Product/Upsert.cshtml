@@ -1,9 +1,8 @@
-﻿ 
-  @model ProductVM
+﻿  @model ProductVM
 <partial name="_Notification" />
 <form method="post" enctype="multipart/form-data">
-    <input asp-for="Product.Id" hidden/>
-    <input asp-for="Product.ImageUrl" hidden/>
+    <input asp-for="Product.Id" hidden />
+    @* <input asp-for="Product.ImageUrl" hidden/> *@
     <div class="row">
         <div class="col-10">
             <div class="border p-3 mt-4">
@@ -53,9 +52,9 @@
                     <span asp-validation-for="Product.Price100" class="text-danger"> </span>
                 </div>
                 <div class="mb-3 row p-1">
-                    <label asp-for="Product.ImageUrl" class="p-0"></label>
-                    <input type="file" name="file" asp-for="Product.ImageUrl" class="form-control" />
-                    <span asp-validation-for="Product.ImageUrl" class="text-danger"> </span>
+                    <label asp-for="Product.ProductImages" class="p-0"></label>
+                    <input type="file" name="files" asp-for="Product.ProductImages" class="form-control" multiple />
+                    @* <span asp-validation-for="Product.ProductImages" class="text-danger"> </span> *@
                 </div>
                 <div class="mb-3 row p-1">
 
@@ -86,14 +85,27 @@
             </div>
         </div>
         <div class="col-2">
-            <img src="@Model.Product.ImageUrl" width="100%"
-                 style="border-radius:5px; border:1px solid #bbb9b9" />
+            @if (Model.Product.ProductImages != null)
+            {
+                foreach (var images in Model.Product.ProductImages)
+                {
+                    <div class="border p-1 m-2 text-danger">
+                        <img src="@images.ImageUrl" width="100%"
+                             style="border-radius:5px; border:1px solid #bbb9b9" />
+                        <a asp-action="DeleteImage" class="btn btn-danger " sytle="margin-left: 20px;" asp-route-imageId="@images.id">
+                            <i class="bi bi-trash-fill"></i> Delete
+                        </a>
+                    </div>
+
+                }
+            }
+
         </div>
     </div>
-    
+
 </form>
-@section scripts{
-  @*  <script>
+@section scripts {
+    @*  <script>
         tinymce.init({
             selector: 'textarea',
             plugins: 'anchor autolink charmap codesample emoticons  lists   table visualblocks wordcount',
@@ -101,7 +113,7 @@
         });
     </script>  *@
     @{
-        <partial name= "_ValidationScriptsPartial"/>
+        <partial name="_ValidationScriptsPartial" />
     }
 
 }

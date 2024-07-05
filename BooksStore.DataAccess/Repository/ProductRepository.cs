@@ -33,10 +33,13 @@ namespace Books.DataAccess.Repository
                 productFromdb.Description = product.Description;
                 productFromdb.CategoryId = product.CategoryId;
                 productFromdb.Author = product.Author;
-                if (productFromdb.ImageUrl != null)
-                {
-                    productFromdb.ImageUrl = product.ImageUrl;
-                }
+                productFromdb.ProductImages = product.ProductImages;    
+
+
+                //if (productFromdb.ImageUrl != null)
+                //{
+                //    productFromdb.ImageUrl = product.ImageUrl;
+                //}
             }
         }
     }
